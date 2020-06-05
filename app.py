@@ -19,10 +19,10 @@ api.init_app(app)
 def expire_checker_thread_timer_func(last_ymd):
     with app.app_context():
         th = None
+        expire_date = datetime.datetime.now() + datetime.timedelta(days=3)
+        expire_date = expire_date.strftime("%Y%m%d")
         if last_ymd != expire_date:
             from model.coupon import Coupon
-            expire_date = datetime.datetime.now() + datetime.timedelta(days=3)
-            expire_date = expire_date.strftime("%Y%m%d")
             res = Coupon.query.filter_by(expire_date=expire_date).all()
             for item in res:
                 if item.bind_user_id:
